@@ -125,3 +125,56 @@ export const delEvent = async (req, res) => {
         })
     }
 }
+
+
+// Update case 
+export const updateEvent = async (req, res) => {
+    try {
+        let event = await Event.findById(req.body.id)
+        if (event) {
+            if(isCreateEvent(req) === false){
+                res.json({
+                    "status": "200",
+                    "event": req.body,
+                    "ack": {
+                        "isSuccessfull": false,
+                        "message": "credentials are not valid, missing some fields"
+                    }
+                })
+            }
+            else{
+                await event.updateOne(req.body, {
+                    new: true,
+                    runValidators: true,
+                    usfindAndModify: false
+                })
+                res.json({
+                    "status": "200",
+                    "event": event,
+                    "ack": {
+                        "isSuccessfull": true,
+                        "message": "event updated successfully",
+                    }
+                })
+            }
+        }
+        else{
+            res.json({
+                "status": "200",
+                "ack": {
+                    "isSuccessfull": false,
+                    "message": "event not found",
+                }
+            })
+        }
+    } catch (error) {
+        res.json({
+            "status": "404",
+            "ack": {
+                "isSuccessfull": false,
+                "reason": "not able to update event",
+                "message": error
+            }
+        })
+    }
+}

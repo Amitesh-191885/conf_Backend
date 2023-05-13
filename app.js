@@ -7,13 +7,12 @@ app.use(express.json())
 
 // router goese here
 import { check, getEventsRoute, addEventRoute, delEventRoute, updateEventRoute } from './router/evenRouter.js'
+app.use(check)
+app.use(getEventsRoute)
+app.use(addEventRoute)
+app.use(delEventRoute)
+app.use(updateEventRoute)
 
-// controller goese here
-import { addEvent, checkApi, delEvent, getAllEvents } from './controller/eventController.js'
-app.post(check, checkApi)
-app.post(getEventsRoute, getAllEvents)
-app.post(addEventRoute, addEvent)
-app.post(delEventRoute, delEvent)
 
 import {} from './controller/eventController.js'
 export default app
